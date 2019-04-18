@@ -1,24 +1,130 @@
-# this is the first version
+______________________________________________________________________Sound Level Sensor_________________________________________________________
 This project is to run a Raspberry PI as an audio device.The device is able to
 do 2 functions: as a sound collector and as a test-tone generator
 
-Table of Contnet
-	1. Configuration Instructions
-	2. Installation Instructions
-	3. Operating Instructing
-	4. File list (Manifest)
-	5. Copyright / Copyleft
-	6. Contact Information
 	7. Credits and Acknowledgements
 
 1. Configuration Instructions
-
-The apllication is running on a Raspberry Pi 3 model B.
-This Pi should came with a USB sound card, a Network connection, a
-microphone.
+	
+	This project makes use of several devices which are listed below:	
+	_ 1 Raspberry Pi 3 device.
+	_ 1 Straight-through RJ45 cable for Raspberry Pi 3 to access the internet.
+	_ 1 16GB SD Card element 14 pre-installed with NOOBS for Raspberry Pi.
+	_ 1 USB cable (type A to type B) to power the Raspberry Pi device.
+	_ 1 sound card for recording sound.
+	_ 1 micro phone for recording sound.
+	_ Internet access and the server.
 
 1.1 Configure USB sound card as default audio device
+	
+	1.	Boot up RPi, and apply the USB sound card. Use .lsusb. command to check if your USB sound card is mounted:
+	2.	Use "sudo nano /etc/asound.conf" command and put following content to the file:
 
-....
+	pcm.!default {
+		type plug
+		slave {
+			pcm "hw:1,0"
+		}
+	}
+	ctl.!default {
+		type hw
+		card 1
+	}
 
 1.2 Install Libcurl library
+
+	1.	First use command "ls /usr/include/curl" or "ls /usr/include/arm-linux-gnueabihf/curl" 
+        to identify that libcurl library is installed.
+
+	2.	If the folder doesn.t exist. Run .sudo apt-get update. to update the application list.
+
+	3.	Run .sudo apt-get install libcurl3. to install the libcurl3.
+
+	4.	Run .sudo apt-get install libcurl4-openssl-dev. to install the development API of libcurl4.
+
+2. Installation Instructions
+
+	_ Insert the SD card into the Raspberry device, and also plug the RJ45 cable in to access the internet.
+	
+	_ Power on the device by using the USB cable.
+	
+	_ Initialize the Raspberry device, change its default setting for sound card and network.
+	
+	_ Check the email for IP address.
+	
+	_ Use Putty application to remotely interact with Raspberry device.
+	
+	_ Plug in the sound card along with the microphone.
+
+3. Operating Instructing
+
+	_ Open the Putty terminal, enter the IP address received in the email and then click "Open".
+	
+	_ Log in to the device using the name "pi" and accompanying password.
+	
+	_ Go to the "appdev" folder by utilizing the command "cd" and 
+	  then check the presence of all the files by the command "ls".
+	
+	_ Type in the command "make" to start the compilation process.
+	
+	_ Run the command "./sound.a" to start executing the resulting file.
+	
+	_ Using the microphone, start recording the sequence of 1-second WAV files. 
+	  For each file, the program will calculate the rms value 
+	  for every 200 samples of data, for a total of 80 values.	
+	
+	_ For each 10 rms values, one rms value of all of them will be calculated, 
+	  and finally these 8 pieces of data will be sent to the server for convenient display.
+
+4. File list (Manifest)
+
+	_ main.c
+	  This is the root file.
+	
+	_ sound.c
+	  This file contains code for extracting information from the WAV file and processes it,
+	  then display the result.
+	
+	_ sound.h
+	  This is the header file for sound.c
+	
+	_ screen.c
+	  This file contains code for displaying the rms result on the screen.
+	
+	_ screen.h
+	  This is the header file for screen.c
+	
+	_ comm.c
+	  This file contains code for the Raspberry Pi communicating with online server
+	
+	_ comm.h
+	  This is the header file for comm.c
+	
+	_ makefile
+	  This file sets the rule for the compilation of the code and several other actions
+	
+	_ sound.php
+	  This file is stored in the server so as to process the data received from the pi and display to the user
+
+5. Copyright and license
+	
+	-This project is made by ANH TRAN along with the assitance of Dr. GAO CHAO 
+
+	-RAspberry Pi is a trade mark of the Raspberry Pi Foundation.
+
+	-The Bluetooth word mark and logos are registed trademarks owned by Bluetooth SIG, Inc. any use of such marks by Raspberry Pi is under lisence.
+
+	-Other trademarks and trade names are those of their respective owners.
+
+6. Contatc information
+
+	ANH TRAN, e1800918
+	Dept. of Information technology
+	Vaasa University of Applied Sciences
+	Woffintie 30, 65100, Vaasa, Finland
+	page: www.cc.puv.fi/~e1800918/
+	email: handbubu@gmail.com
+
+7. Credits and Acknowledgements
+
+	
